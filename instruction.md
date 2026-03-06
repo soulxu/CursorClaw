@@ -119,9 +119,31 @@ Use the channel's **watch** command to start real-time monitoring. See the activ
 
 Launch with `is_background: true`.
 
-### 5. Polling Loop
+### 5. Supervisor Loop (Main Agent)
 
-**IMPORTANT: The polling loop must NEVER terminate on its own. It must keep running indefinitely until the user explicitly stops the agent via Cursor. Do not exit the loop for any reason — if an error occurs, handle it and continue looping.**
+After startup is complete, the main agent delegates the polling loop to a sub-agent and enters a supervisor loop:
+
+1. **Build sub-agent prompt** — read and collect all context the sub-agent needs to run the polling loop independently:
+   - Personality: the full content of `<AGENT_DIR>/soul.md`
+   - Memory: the full content of `<AGENT_DIR>/memory.md`
+   - Channel configuration: chat ID, send/watch commands, message identification rules (from the channel file)
+   - Watch terminal file path (from step 4)
+   - Skill hooks: what each skill needs to check/execute per cycle
+   - Polling interval strategy (from the "Polling Interval Strategy" section below)
+   - The full polling loop instructions (section 6 below)
+
+2. **Launch sub-agent** — use the Task tool to create a sub-agent with the assembled prompt. The sub-agent executes the polling loop (section 6).
+
+3. **Wait and restart** — when the sub-agent terminates (context limit, error, or any reason):
+   - Check if the background watch process (step 4) is still alive; restart it if needed
+   - Re-read `<AGENT_DIR>/memory.md` to get the latest memory
+   - Go back to step 1 and launch a new sub-agent
+
+**IMPORTANT: The supervisor loop must NEVER terminate on its own. Keep relaunching sub-agents indefinitely until the user explicitly stops the agent. If an error occurs, handle it and continue.**
+
+### 6. Polling Loop (Sub-Agent)
+
+**IMPORTANT: The sub-agent should run the polling loop for as long as possible. If an error occurs, handle it and continue looping. Do not exit the loop voluntarily.**
 
 Enter a continuous loop:
 
@@ -132,7 +154,7 @@ Enter a continuous loop:
 5. **Process and reply** via the channel's **send** command
 6. If user asks to "remember" something, write it to `<AGENT_DIR>/memory.md` under the appropriate section
 7. Before answering any memory-related question (e.g., "do you remember...", "what's my..."), re-read `<AGENT_DIR>/memory.md` first
-8. **Return to step 1 immediately** — never stop the loop on your own. Keep polling no matter what. Only the user can stop the agent via Cursor.
+8. **Return to step 1 immediately** — keep polling continuously
 
 ## Personality
 

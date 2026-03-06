@@ -53,16 +53,23 @@ Your AI assistant is now live on iMessage. Talk to it like you would a friend.
 
 ## How It Works
 
-Currently (iMessage channel):
+CursorClaw uses a **main agent + sub-agent** architecture:
 
 ```
-You (iMessage) <──> imsg CLI <──> Cursor Agent (reads instruction.md)
+You (iMessage) <──> imsg CLI <──> Main Agent (init + supervisor)
                                       │
                                       ├── soul.md    (personality)
-                                      └── memory.md  (long-term memory)
+                                      ├── memory.md  (long-term memory)
+                                      │
+                                      └── Sub-Agent  (polling loop)
+                                           ├── Listen for new messages
+                                           ├── Process & reply
+                                           └── Execute scheduled tasks
 ```
 
-The agent uses the [`imsg`](https://github.com/steipete/imsg) CLI tool to watch for incoming iMessages (current channel). It runs a polling loop inside Cursor's agent mode, reading new messages, processing them according to its personality, and replying — all autonomously.
+- **Main Agent** handles initialization, onboarding, and starting the background message watcher, then enters a supervisor loop
+- **Sub-Agent** receives all context from the main agent (personality, memory, channel config, skills) and independently runs the polling loop
+- When a sub-agent terminates due to context length limits or other reasons, the main agent automatically refreshes memory and launches a new sub-agent for seamless continuation
 
 ## Customization
 
@@ -94,28 +101,28 @@ Tasks are stored in `memory.md` and automatically executed within a ±5 minute w
 
 ## Architecture
 
-The agent runs a simple but effective loop:
+```
+┌──────────────────────────────────────────┐
+│        Main Agent (runs forever)          │
+│  1. Init: read instruction/soul/memory    │
+│  2. Onboarding (first run only)           │
+│  3. Start background imsg watch           │
+│  4. Enter supervisor loop ─────────┐      │
+│       ┌────────────────────────────┤      │
+│       │                            │      │
+│       ▼                            │      │
+│  ┌──────────────────────────┐      │      │
+│  │  Sub-Agent (polling)      │      │      │
+│  │  Sleep → skill hooks      │      │      │
+│  │  → read new messages      │  auto│      │
+│  │  → process & reply        │restart      │
+│  │  → update memory          │  on  │      │
+│  │  → loop                   │ exit │      │
+│  └──────────────────────────┘──────┘      │
+└──────────────────────────────────────────┘
+```
 
-```
-┌─────────────────────────────────┐
-│         Initialization          │
-│  Read instruction/soul/memory   │
-│  Start background `imsg watch`  │
-└──────────────┬──────────────────┘
-               │
-               ▼
-┌─────────────────────────────────┐
-│         Polling Loop            │◄──┐
-│  1. Sleep (5s day / 120s night) │   │
-│  2. Check time → run tasks     │   │
-│  3. Read watch output           │   │
-│  4. Identify new messages       │   │
-│  5. Process & reply             │   │
-│  6. Update memory if needed     │   │
-└──────────────┬──────────────────┘   │
-               │                      │
-               └──────────────────────┘
-```
+The main agent never stops due to context exhaustion — when a sub-agent terminates, it is automatically restarted. Memory is persisted via `memory.md`, enabling indefinite operation.
 
 ## Message Identification
 
