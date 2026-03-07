@@ -47,6 +47,8 @@ cd CursorClaw
 
 ### 3. Start the Agent
 
+> **Recommended model**: Use **Claude 4.6 Opus (Thinking)** for the best experience — it has been tested and works reliably. Weaker models may not fully execute instructions autonomously and require more manual prompting (e.g., Composer 1.5 cannot fully auto-execute).
+
 Run the following command in the `CursorClaw` directory:
 
 ```bash
