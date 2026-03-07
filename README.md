@@ -57,10 +57,20 @@ The agent will:
 - Read its instructions and detect this is a first run
 - Ask you which communication channel to use (currently iMessage only)
 - Ask for your phone number or Apple ID to set up the iMessage conversation
+- Ask you to choose `/auto-run` or `/sandbox` mode, and test that commands execute automatically
 - Send you onboarding questions via iMessage (answer on your phone)
 - Build its personality and memory based on your answers, then start monitoring and responding
 
-During onboarding, the agent will ask you these questions via iMessage:
+During startup, the agent will ask these questions in the terminal:
+
+| Question | Example Answer | Notes |
+|---|---|---|
+| Which communication channel? | *iMessage* | Only iMessage supported for now |
+| Recipient phone number or Apple ID? | *+1234567890* | Your own phone number or Apple ID |
+| Choose `/auto-run` or `/sandbox`? | Type `/auto-run` or `/sandbox` | auto-run is easier, sandbox is safer |
+| Did the commands run automatically? | *Yes* | Agent runs test commands and asks you to confirm |
+
+Then the agent will ask these questions via iMessage (answer on your phone):
 
 | Question | Example Answer |
 |---|---|
