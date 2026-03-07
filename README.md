@@ -30,14 +30,22 @@ CursorClaw transforms [Cursor](https://cursor.sh)'s CLI agent into a persistent,
 
 ## Quick Start
 
-### 1. Clone CursorClaw
+### 1. Install Cursor CLI
+
+Follow the [Cursor CLI](https://cursor.com/cli) official page and run:
+
+```bash
+curl https://cursor.com/install -fsS | bash
+```
+
+### 2. Clone CursorClaw
 
 ```bash
 git clone https://github.com/anthropics/CursorClaw.git
 cd CursorClaw
 ```
 
-### 2. Start the Agent
+### 3. Start the Agent
 
 Run the following command in the `CursorClaw` directory:
 
@@ -61,7 +69,7 @@ During onboarding, the agent will ask you these questions via iMessage:
 | What language should I primarily use? | *English* |
 | Would you like any daily scheduled reminders? | *Remind me to take medicine at 8am* or *skip* |
 
-### 3. That's It
+### 4. That's It
 
 Your AI assistant is now live on iMessage. Talk to it like you would a friend.
 

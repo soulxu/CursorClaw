@@ -28,14 +28,22 @@ CursorClaw 将 [Cursor](https://cursor.sh) 的 CLI Agent 变成一个类似 Open
 
 ## 快速开始
 
-### 1. 克隆 CursorClaw
+### 1. 安装 Cursor CLI
+
+参考 [Cursor CLI](https://cursor.com/cli) 官方页面，运行以下命令安装：
+
+```bash
+curl https://cursor.com/install -fsS | bash
+```
+
+### 2. 克隆 CursorClaw
 
 ```bash
 git clone https://github.com/anthropics/CursorClaw.git
 cd CursorClaw
 ```
 
-### 2. 启动 Agent
+### 3. 启动 Agent
 
 在 `CursorClaw` 目录下运行：
 
@@ -65,7 +73,7 @@ Agent 会自动：
 | 我主要用什么语言跟你交流？ | *中文* |
 | 需要每日定时提醒吗？ | *每天早上8点提醒我吃药* 或 *skip* |
 
-### 3. 搞定！
+### 4. 搞定！
 
 你的 AI 助理已经在 iMessage 上线了。像跟朋友聊天一样跟它说话吧。
 
