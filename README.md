@@ -8,7 +8,7 @@
 
 **Turn Cursor CLI into an [OpenClaw](https://github.com/anthropics/openclaw) (ClawBot)-style AI personal assistant.**
 
-CursorClaw transforms [Cursor](https://cursor.sh)'s CLI agent into a persistent, always-on AI personal assistant — similar to OpenClaw (ClawBot). It talks to you through specific **communication tools** — **iMessage** is one of them (via `imsg`). You send instructions through these tools; the agent receives them and **runs commands and completes tasks on your computer**. More channels may be added in the future. Currently supports running on Mac.
+CursorClaw transforms [Cursor](https://cursor.sh)'s CLI agent into a persistent, always-on AI personal assistant — similar to OpenClaw (ClawBot). **Zero lines of code — the entire project is built purely with prompt engineering.** It talks to you through specific **communication tools** — **iMessage** is one of them (via `imsg`). You send instructions through these tools; the agent receives them and **runs commands and completes tasks on your computer**. More channels may be added in the future. Currently supports running on Mac.
 
 ## What It Does
 
