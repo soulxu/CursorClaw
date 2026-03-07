@@ -41,7 +41,7 @@ curl https://cursor.com/install -fsS | bash
 ### 2. Clone CursorClaw
 
 ```bash
-git clone https://github.com/anthropics/CursorClaw.git
+git clone https://github.com/soulxu/CursorClaw.git
 cd CursorClaw
 ```
 
