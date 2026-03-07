@@ -4,6 +4,8 @@
 
 # CursorClaw
 
+[中文版](README_CN.md)
+
 **Turn Cursor CLI into an [OpenClaw](https://github.com/anthropics/openclaw) (ClawBot)-style AI personal assistant.**
 
 CursorClaw transforms [Cursor](https://cursor.sh)'s CLI agent into a persistent, always-on AI personal assistant — similar to OpenClaw (ClawBot). It talks to you through specific **communication tools** — **iMessage** is one of them (via `imsg`). You send instructions through these tools; the agent receives them and **runs commands and completes tasks on your computer**. More channels may be added in the future. Currently supports running on Mac.
@@ -44,12 +46,20 @@ agent "Read instruction.md and start"
 ```
 
 The agent will:
-- Read its instructions
-- Detect this is a first run
-- List your iMessage chats and ask you to pick one
-- Send you onboarding questions via iMessage
-- Build its personality and memory based on your answers
-- Start monitoring and responding
+- Read its instructions and detect this is a first run
+- Ask you which communication channel to use (currently iMessage only)
+- Ask for your phone number or Apple ID to set up the iMessage conversation
+- Send you onboarding questions via iMessage (answer on your phone)
+- Build its personality and memory based on your answers, then start monitoring and responding
+
+During onboarding, the agent will ask you these questions via iMessage:
+
+| Question | Example Answer |
+|---|---|
+| What should I call you? | *Alex* |
+| What personality would you like me to have? | *A friendly cat who says "meow"* |
+| What language should I primarily use? | *English* |
+| Would you like any daily scheduled reminders? | *Remind me to take medicine at 8am* or *skip* |
 
 ### 3. That's It
 
