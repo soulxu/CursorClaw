@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="img/cursor-claw-icon-large.png" alt="CursorClaw" width="200">
+</p>
+
 # CursorClaw
 
 **Turn Cursor CLI into an [OpenClaw](https://github.com/anthropics/openclaw) (ClawBot)-style AI personal assistant.**
