@@ -119,6 +119,12 @@ Use the channel's **watch** command to start real-time monitoring. See the activ
 
 Launch with `is_background: true`.
 
+**Mode Selection**: After the background watch is started, select the loop mode:
+- **Normal Mode** (default): proceed to section 5 (Supervisor Loop with sub-agents)
+- **Debug Mode**: skip section 5 and run section 6 (Polling Loop) directly in the main agent, without creating sub-agents
+
+Debug mode is enabled when the user requests it during startup (e.g., "use debug mode") or when `mode: debug` is set in `<AGENT_DIR>/memory.md` under Configuration. In debug mode, since there is no supervisor to restart the loop on context exhaustion, the main agent should warn the user when the conversation is getting long.
+
 ### 5. Supervisor Loop (Main Agent)
 
 After startup is complete, the main agent delegates the polling loop to a sub-agent and enters a supervisor loop:
@@ -141,9 +147,9 @@ After startup is complete, the main agent delegates the polling loop to a sub-ag
 
 **IMPORTANT: The supervisor loop must NEVER terminate on its own. Keep relaunching sub-agents indefinitely until the user explicitly stops the agent. If an error occurs, handle it and continue.**
 
-### 6. Polling Loop (Sub-Agent)
+### 6. Polling Loop (Sub-Agent / Main Agent in Debug Mode)
 
-**IMPORTANT: The sub-agent should run the polling loop for as long as possible. If an error occurs, handle it and continue looping. Do not exit the loop voluntarily.**
+**IMPORTANT: The agent running this loop (sub-agent in normal mode, main agent in debug mode) should run for as long as possible. If an error occurs, handle it and continue looping. Do not exit the loop voluntarily.**
 
 Enter a continuous loop:
 
