@@ -106,7 +106,19 @@ This is a **self-chat** scenario (the user messages themselves). All messages ap
 
 - Messages sent via `imsg send` have a special byte prefix (`\ufffd` character) in the `text` field when `is_from_me: true`
 - Messages typed manually by the user do NOT have this prefix
-- **Only process messages where `is_from_me: true` AND there is NO `\ufffd` prefix**
+- **Primary rule: only process messages where `is_from_me: true` AND there is NO `\ufffd` prefix**
+
+**In-session tracking (supplementary mechanism):**
+
+The `\ufffd` prefix alone may not be fully reliable across agent sessions. The agent should maintain an in-memory set of message texts sent via `imsg send` during the current session. When evaluating `is_from_me: true` messages:
+
+1. Message text (after stripping `\ufffd` and control characters) matches the sent set → bot message, skip
+2. Has `\ufffd` prefix and NOT in the sent set → likely a bot message from a previous session, skip
+3. No `\ufffd` prefix and NOT in the sent set → user message, process
+
+**Startup check for unresponded messages:**
+
+On normal startup (before starting the watch), after retrieving recent message history, scan backwards through the messages to find any user messages (`is_from_me: true` without `\ufffd` prefix) that appear after the last bot reply. If found, process and respond to these messages before starting the watch loop. This prevents user messages from being lost across agent session restarts.
 
 ## Channel-Specific Configuration
 
