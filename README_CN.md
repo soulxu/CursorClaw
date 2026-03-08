@@ -45,8 +45,6 @@ cd CursorClaw
 
 ### 3. 启动 Agent
 
-> **推荐模型**：建议使用 **Claude 4.6 Opus (Thinking)** 以获得最佳体验，该模型已经过测试可以正常运行。能力较弱的模型可能无法完全自动执行指令，需要更多人工提示（例如 Composer 1.5 就无法完全自动执行）。
-
 在 `CursorClaw` 目录下运行：
 
 ```bash
